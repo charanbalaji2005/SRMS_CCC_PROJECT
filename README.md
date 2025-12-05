@@ -1,57 +1,125 @@
-══════════════════════════════════════════════════════════════════════╗
-║                 STUDENT LOGIN SYSTEM – ARCHITECTURE OVERVIEW         ║
-╠══════════════════════════════════════════════════════════════════════╣
-║                                                                      ║
-║  MODULE DESCRIPTIONS:                                                ║
-║                                                                      ║
-║  1. User Interaction Layer:                                          ║
-║     - Entry point for Admin, Staff, and Guest users.                 ║
-║     - Users provide credentials and select menu operations.          ║
-║                                                                      ║
-║  2. Login & Authentication:                                          ║
-║     - Reads data from credentials.txt.                               ║
-║     - Validates username and password.                               ║
-║     - Assigns user role after verification.                          ║
-║     - Uses secure masked password input.                             ║
-║                                                                      ║
-║  3. Role-Based Menu Dispatcher:                                      ║
-║     - Displays menu options depending on user role.                  ║
-║     - Admin: Full access (Add, View, Search, Update, Delete).        ║
-║     - Staff: Limited access (No delete).                             ║
-║     - Guest: Read-only access (View, Search).                        ║
-║                                                                      ║
-║  4. Student Management Module:                                       ║
-║     - Handles all operations on student records:                     ║
-║       Add, Display, Search, Update, Delete.                          ║
-║     - Works closely with the file handling system.                   ║
-║                                                                      ║
-║  5. File Handling Engine:                                            ║
-║     - Reads/writes data to students.txt.                             ║
-║     - Uses temp file mechanism for safe update/delete.               ║
-║     - Ensures data consistency across operations.                    ║
-║                                                                      ║
-║     D1: credentials.txt                                              ║
-║       → Stores username, password, and role.                         ║
-║                                                                      ║
-║     D2: students.txt                                                 ║
-║       → Stores roll, name, marks.                                    ║
-║                                                                      ║
-║  6. Output/Reports Module:                                           ║
-║     - Displays results such as search output, student lists,         ║
-║       update status, delete confirmation, and error messages.        ║
-║                                                                      ║
-║  END-TO-END WORKFLOW:                                                ║
-║     1. User opens program and logs in.                               ║
-║     2. Authentication validates their credentials.                    ║
-║     3. Based on role, menu options are shown.                        ║
-║     4. User selects an operation.                                    ║
-║     5. Student Management executes the task.                         ║
-║     6. File Handling reads/writes required data.                     ║     ║
-║     7. Output is displayed to the user.                              ║
-║     8. User continues operations or logs out.                        ║
-║                                                                      ║
-║  SUMMARY:                                                            ║
-║     This architecture ensures secure access, clear role separation,  ║
-║     safe file handling, and a smooth flow between authentication,    ║
-║     menu dispatching, and student data operations.                   ║
-╚══════════════════════════════════════════════════════════════════════╝
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                         STUDENT LOGIN & MANAGEMENT SYSTEM                     │
+│                               (Advanced README)                               │
+├───────────────────────────────────────────────────────────────────────────────┤
+
+📘 PROJECT OVERVIEW
+A role-based authentication and student management system developed in C.
+It supports Admin, Staff, and Guest functionalities with secure login,
+file-based storage, and CRUD operations on student records.
+
+─────────────────────────────────────────────────────────────────────────────────
+
+🔐 FEATURES
+
+1. Secure Login & Authentication
+   • Password masking with '*'  
+   • Reads credentials from credentials.txt  
+   • Supports admin, staff, guest roles  
+
+2. Role-Based Menu Dispatcher
+   • Admin: Add, View, Search, Update, Delete  
+   • Staff: Add, View, Search, Update  
+   • Guest: View, Search only  
+
+3. Student Management
+   • Add new student  
+   • Display all students  
+   • Search student (case-insensitive)  
+   • Update student using temp file  
+   • Delete student safely via temp rewrite  
+
+4. File Handling
+   • credentials.txt → stores username/password/role  
+   • students.txt → stores roll, name, marks  
+   • Uses temp file mechanism to avoid data corruption  
+
+─────────────────────────────────────────────────────────────────────────────────
+
+🏗 SYSTEM ARCHITECTURE (DIAGRAM INCLUDED IN PROJECT)
+
+User → Login & Authentication → Role-Based Menu → Student Management  
+                     |                      |               |  
+               credentials.txt         Output/Reports   students.txt  
+
+─────────────────────────────────────────────────────────────────────────────────
+
+📁 PROJECT STRUCTURE
+
+Student-Login-System/
+│── main.c
+│── credentials.txt
+│── students.txt
+└── README.md
+
+─────────────────────────────────────────────────────────────────────────────────
+
+🖥 HOW TO RUN
+
+Compile:
+    gcc main.c -o student_system
+
+Run:
+    ./student_system
+
+─────────────────────────────────────────────────────────────────────────────────
+
+📝 SAMPLE credentials.txt
+
+admin admin123 admin  
+staff staff123 staff  
+guest guest123 guest  
+
+─────────────────────────────────────────────────────────────────────────────────
+
+📝 SAMPLE students.txt
+
+101 John 87.50  
+102 Alice 91.00  
+103 Bob 76.25  
+
+─────────────────────────────────────────────────────────────────────────────────
+
+⚙ INTERNAL WORKING
+
+• Login:
+  - User enters username & password  
+  - Password hidden with '*'  
+  - Credentials verified from file  
+
+• CRUD Operations:
+  - Add → append new record  
+  - Display → read entire file  
+  - Search → compare names ignoring case  
+  - Update/Delete → rewrite file via temp.txt  
+
+─────────────────────────────────────────────────────────────────────────────────
+
+🛡 SECURITY NOTES
+
+• Password masking  
+• Role-based operation restrictions  
+• Temporary file method prevents data corruption  
+• No hardcoded credentials inside source code  
+
+─────────────────────────────────────────────────────────────────────────────────
+
+🌟 FUTURE ENHANCEMENTS
+
+• Password encryption (SHA-256)  
+• Replace text files with CSV/JSON/SQLite  
+• Add sorting functionality  
+• Implement GUI/Frontend  
+• Create API service backend  
+
+─────────────────────────────────────────────────────────────────────────────────
+
+🙌 CONTRIBUTING
+Pull requests and improvements are welcome. For major updates, create an issue.
+
+─────────────────────────────────────────────────────────────────────────────────
+
+📜 LICENSE
+MIT License – Open-source, free to modify and distribute.
+
+└───────────────────────────────────────────────────────────────────────────────┘
